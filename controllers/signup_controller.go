@@ -1,5 +1,5 @@
 package controllers
 
-func ()signup(){
-	
+func () SignUp() {
+
 }
