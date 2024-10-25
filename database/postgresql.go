@@ -12,8 +12,10 @@ import (
 var db *sql.DB
 
 // PostgreSQL connection
-func DBConnect() *sql.DB {
-	connStr := "user=postgres dbname=blasterbalu password=balaspba sslmode=disable"
+func DBConnect(cfg *config.AppConfig) *sql.DB {
+
+	connStr := fmt.Sprintf("host=localhost port=5432 user=postgres password=balaspba dbname=blasterbalu sslmode=disable",
+		cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
 
 	var err error
 	db, err = sql.Open("postgres", connStr)
@@ -33,8 +35,8 @@ func DBConnect() *sql.DB {
 // getDB returns database instance
 func GetDB() *sql.DB {
 	if db == nil {
-
-		db = DBConnect()
+		cfg := config.LoadConfig()
+		db = DBConnect(cfg)
 	}
 
 	return db
